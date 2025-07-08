@@ -5,7 +5,11 @@ import retrofit2.http.GET
 import retrofit2.http.Query
 
 interface WeatherService {
-    @GET("data/2.5/onecall")
+    // Base URL already includes `data/2.5/`. Using a relative path here
+    // would result in a duplicated segment like `data/2.5/data/2.5/onecall`
+    // and lead to a 404 error. Keep only the endpoint name so Retrofit
+    // correctly builds the full URL.
+    @GET("onecall")
     suspend fun fetchWeather(
         @Query("lat") lat: Double,
         @Query("lon") lon: Double,
