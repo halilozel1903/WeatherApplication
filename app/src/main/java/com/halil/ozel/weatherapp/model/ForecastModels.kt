@@ -16,3 +16,8 @@ data class ForecastMain(
     val temp_min: Double,
     val temp_max: Double
 )
+
+data class WeatherDesc(
+    val icon: String,
+    val description: String
+)
