@@ -6,12 +6,12 @@ plugins {
 
 android {
     namespace = "com.halil.ozel.weatherapp"
-    compileSdk = 36
+    compileSdk = 34
 
     defaultConfig {
         applicationId = "com.halil.ozel.weatherapp"
         minSdk = 26
-        targetSdk = 36
+        targetSdk = 34
         versionCode = 1
         versionName = "1.0"
 
