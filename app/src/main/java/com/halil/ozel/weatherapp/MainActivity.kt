@@ -12,7 +12,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.foundation.layout.Column
 import com.halil.ozel.weatherapp.ui.screens.ForecastScreen
-import com.halil.ozel.weatherapp.ui.screens.WeatherScreen
 import com.halil.ozel.weatherapp.ui.theme.WeatherAppTheme
 
 class MainActivity : ComponentActivity() {
@@ -23,7 +22,6 @@ class MainActivity : ComponentActivity() {
             WeatherAppTheme {
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
                     Column(modifier = Modifier.padding(innerPadding)) {
-                        WeatherScreen()
                         ForecastScreen(cityName = "Ankara")
                     }
                 }
@@ -35,9 +33,8 @@ class MainActivity : ComponentActivity() {
 @Preview(showBackground = true)
 @Composable
 fun DefaultPreview() {
-    WeatherAppTheme {        Column {
-            WeatherScreen()
+    WeatherAppTheme {
+        Column {
             ForecastScreen(cityName = "Ankara")
         }
-    }
-}
+    }}
