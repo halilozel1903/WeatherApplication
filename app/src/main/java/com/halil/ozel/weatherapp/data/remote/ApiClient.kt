@@ -7,7 +7,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 
 object ApiClient {
     const val BASE_URL = "https://api.openweathermap.org/data/2.5/"
-    const val API_KEY = "3c074d933b6d1bd63550777fc2f76396"
+    const val API_KEY = "c0553ff6aecd1617c64d6d06ae65b79e"
 
     private val client: OkHttpClient by lazy {
         val interceptor = HttpLoggingInterceptor().apply {
