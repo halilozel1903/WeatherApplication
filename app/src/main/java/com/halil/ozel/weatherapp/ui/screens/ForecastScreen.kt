@@ -6,6 +6,10 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
@@ -25,7 +29,8 @@ import java.util.Locale
 fun ForecastScreen(
     cityName: String,
     modifier: Modifier = Modifier,
-    viewModel: ForecastViewModel = viewModel()
+    viewModel: ForecastViewModel = viewModel(),
+    onBack: (() -> Unit)? = null
 ) {
     val state by viewModel.state.collectAsState()
 
@@ -33,11 +38,26 @@ fun ForecastScreen(
         viewModel.loadForecast(cityName)
     }
 
-    Box(modifier = modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
-        when {
-            state.isLoading -> CircularProgressIndicator()
-            state.data != null -> ForecastContent(state.data!!.list)
-            state.error != null -> Text(text = state.error ?: "Error")
+    Column(modifier = modifier.fillMaxSize()) {
+        Row(
+            verticalAlignment = Alignment.CenterVertically,
+            modifier = Modifier.fillMaxWidth().padding(16.dp)
+        ) {
+            if (onBack != null) {
+                IconButton(onClick = onBack) {
+                    Icon(Icons.Default.ArrowBack, contentDescription = "Back")
+                }
+                Spacer(modifier = Modifier.width(8.dp))
+            }
+            Text(text = cityName, style = MaterialTheme.typography.titleLarge)
+        }
+
+        Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
+            when {
+                state.isLoading -> CircularProgressIndicator()
+                state.data != null -> ForecastContent(state.data!!.list)
+                state.error != null -> Text(text = state.error ?: "Error")
+            }
         }
     }
 }
