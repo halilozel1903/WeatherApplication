@@ -25,7 +25,7 @@ import com.halil.ozel.weatherapp.viewmodel.ForecastViewModel
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
-import kotlin.collections.firstOrNull
+
 
 @Composable
 fun ForecastScreen(
