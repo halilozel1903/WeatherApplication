@@ -25,6 +25,7 @@ import com.halil.ozel.weatherapp.viewmodel.ForecastViewModel
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
+import kotlin.collections.firstOrNull
 
 @Composable
 fun ForecastScreen(
@@ -93,7 +94,10 @@ private fun ForecastRow(item: ForecastItem) {
         )
         AsyncImage(model = iconUrl, contentDescription = null, modifier = Modifier.size(40.dp))
         Spacer(modifier = Modifier.width(8.dp))
-        Text(text = "${'$'}{item.main.temp.toInt()}°C", style = MaterialTheme.typography.bodyLarge)
+        Text(
+            text = "${item.main.temp.toInt()}°C",
+            style = MaterialTheme.typography.bodyLarge
+        )
     }
 }
 
@@ -108,6 +112,8 @@ private fun CurrentWeatherRow(current: CurrentWeatherResponse) {
         Text(text = "Now", modifier = Modifier.weight(1f))
         AsyncImage(model = iconUrl, contentDescription = null, modifier = Modifier.size(40.dp))
         Spacer(modifier = Modifier.width(8.dp))
-        Text(text = "${'$'}{current.main.temp.toInt()}°C", style = MaterialTheme.typography.bodyLarge)
-    }
+        Text(
+            text = "${current.main.temp.toInt()}°C",
+            style = MaterialTheme.typography.bodyLarge
+        )    }
 }
