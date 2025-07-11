@@ -9,7 +9,13 @@ import androidx.compose.material.icons.filled.Public
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
+import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.Button
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
@@ -19,8 +25,22 @@ fun CityListScreen(
     modifier: Modifier = Modifier,
     onCitySelected: (String) -> Unit
 ) {
+    var query by remember { mutableStateOf("") }
     val cities = listOf("Ankara", "London", "New York", "Tokyo", "Paris")
     LazyColumn(modifier = modifier.fillMaxSize().padding(16.dp)) {
+        item {
+            OutlinedTextField(
+                value = query,
+                onValueChange = { query = it },
+                label = { Text("Search city") },
+                modifier = Modifier.fillMaxWidth()
+            )
+            Spacer(modifier = Modifier.height(8.dp))
+            Button(onClick = { if (query.isNotBlank()) onCitySelected(query) }) {
+                Text("Search")
+            }
+            Spacer(modifier = Modifier.height(16.dp))
+        }
         items(cities) { city ->
             CityRow(city = city, onClick = { onCitySelected(city) })
         }

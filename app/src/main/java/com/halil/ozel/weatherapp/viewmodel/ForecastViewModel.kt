@@ -3,6 +3,7 @@ package com.halil.ozel.weatherapp.viewmodel
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.halil.ozel.weatherapp.model.ForecastResponse
+import com.halil.ozel.weatherapp.model.CurrentWeatherResponse
 import com.halil.ozel.weatherapp.repository.WeatherRepository
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -12,6 +13,7 @@ import kotlinx.coroutines.launch
 data class ForecastUiState(
     val isLoading: Boolean = false,
     val data: ForecastResponse? = null,
+    val current: CurrentWeatherResponse? = null,
     val error: String? = null
 )
 
@@ -27,8 +29,9 @@ class ForecastViewModel(
         _state.value = ForecastUiState(isLoading = true)
         viewModelScope.launch {
             try {
-                val response = repository.getForecast(cityName)
-                _state.value = ForecastUiState(data = response)
+                val forecast = repository.getForecast(cityName)
+                val current = repository.getCurrentWeather(cityName)
+                _state.value = ForecastUiState(data = forecast, current = current)
             } catch (e: Exception) {
                 _state.value = ForecastUiState(error = e.localizedMessage)
             }
