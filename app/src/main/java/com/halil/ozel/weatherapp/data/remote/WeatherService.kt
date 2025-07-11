@@ -1,6 +1,7 @@
 package com.halil.ozel.weatherapp.data.remote
 
 import com.halil.ozel.weatherapp.model.ForecastResponse
+import com.halil.ozel.weatherapp.model.CurrentWeatherResponse
 import retrofit2.http.GET
 import retrofit2.http.Query
 
@@ -15,4 +16,14 @@ interface WeatherService {
         @Query("units") units: String = "metric",
         @Query("appid") apiKey: String = ApiClient.API_KEY
     ): ForecastResponse
+
+    /**
+     * Fetch current weather data by city name.
+     */
+    @GET("weather")
+    suspend fun getCurrentWeather(
+        @Query("q") cityName: String,
+        @Query("units") units: String = "metric",
+        @Query("appid") apiKey: String = ApiClient.API_KEY
+    ): CurrentWeatherResponse
 }

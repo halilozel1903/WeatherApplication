@@ -20,6 +20,7 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import coil.compose.AsyncImage
 import com.halil.ozel.weatherapp.model.ForecastItem
+import com.halil.ozel.weatherapp.model.CurrentWeatherResponse
 import com.halil.ozel.weatherapp.viewmodel.ForecastViewModel
 import java.text.SimpleDateFormat
 import java.util.Date
@@ -55,7 +56,7 @@ fun ForecastScreen(
         Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
             when {
                 state.isLoading -> CircularProgressIndicator()
-                state.data != null -> ForecastContent(state.data!!.list)
+                state.data != null -> ForecastContent(state.current, state.data!!.list)
                 state.error != null -> Text(text = state.error ?: "Error")
             }
         }
@@ -63,8 +64,14 @@ fun ForecastScreen(
 }
 
 @Composable
-private fun ForecastContent(items: List<ForecastItem>) {
+private fun ForecastContent(current: CurrentWeatherResponse?, items: List<ForecastItem>) {
     LazyColumn(modifier = Modifier.fillMaxSize().padding(16.dp)) {
+        if (current != null) {
+            item {
+                CurrentWeatherRow(current)
+                Spacer(modifier = Modifier.height(16.dp))
+            }
+        }
         items(items) { item ->
             ForecastRow(item)
         }
@@ -87,5 +94,20 @@ private fun ForecastRow(item: ForecastItem) {
         AsyncImage(model = iconUrl, contentDescription = null, modifier = Modifier.size(40.dp))
         Spacer(modifier = Modifier.width(8.dp))
         Text(text = "${'$'}{item.main.temp.toInt()}°C", style = MaterialTheme.typography.bodyLarge)
+    }
+}
+
+@Composable
+private fun CurrentWeatherRow(current: CurrentWeatherResponse) {
+    val icon = current.weather.firstOrNull()?.icon ?: "01d"
+    val iconUrl = "https://openweathermap.org/img/wn/${'$'}icon@2x.png"
+    Row(
+        verticalAlignment = Alignment.CenterVertically,
+        modifier = Modifier.fillMaxWidth().padding(vertical = 8.dp)
+    ) {
+        Text(text = "Now", modifier = Modifier.weight(1f))
+        AsyncImage(model = iconUrl, contentDescription = null, modifier = Modifier.size(40.dp))
+        Spacer(modifier = Modifier.width(8.dp))
+        Text(text = "${'$'}{current.main.temp.toInt()}°C", style = MaterialTheme.typography.bodyLarge)
     }
 }
